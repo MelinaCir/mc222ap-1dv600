@@ -1,6 +1,8 @@
 package mc222ap_TheHangmanGame;
 
 /**
+ * Starts a new game and allows the player to play it.
+ *
  * @author Melina Cirverius
  * @version 1.0
  */
