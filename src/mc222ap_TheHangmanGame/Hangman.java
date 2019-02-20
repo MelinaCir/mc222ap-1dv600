@@ -96,15 +96,16 @@ public class Hangman {
 
     private void getWord() {
 
-        while (wordScanner.hasNext()) {
-            String word = wordScanner.nextLine();
+//        while (wordScanner.hasNext()) {
+//            String word = wordScanner.nextLine();
+//
+//            wordList.add(word);
+//        }
+//        wordScanner.close();
 
-            wordList.add(word);
-        }
-        wordScanner.close();
+        Words word = new Words();
 
-        String selectedWord = wordList.get((int) (Math.random() * wordList.size()));
-
+        String selectedWord = word.getWordToGuess;
         for (int i = 0; i < selectedWord.length(); i++) {
             letterList.add(String.valueOf(selectedWord.charAt(i)));
             underscores.add("_ ");
