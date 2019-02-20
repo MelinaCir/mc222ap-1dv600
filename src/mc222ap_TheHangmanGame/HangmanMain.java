@@ -11,5 +11,6 @@ public class HangmanMain {
 
     public static void main(String[] args) {
 
+        Hangman test1 = new Hangman();
     }
 }
