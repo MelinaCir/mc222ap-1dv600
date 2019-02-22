@@ -1,7 +1,5 @@
 package mc222ap_TheHangmanGame;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,99 +11,73 @@ import java.util.Scanner;
  */
 public class Hangman {
 
-    private ArrayList<String> wordList = new ArrayList<>();
-    private ArrayList<String> letterList = new ArrayList<>();
-    private ArrayList<String> underscores = new ArrayList<>();
-
+    private final ArrayList<String> letterList = new ArrayList<>();
+    private final ArrayList<String> underscores = new ArrayList<>();
+    private final ArrayList<String> guessedLetters = new ArrayList<>();
+    private Player theGamer;
     // The number of guesses the player gets
     private int guesses = 10;
-    private Scanner wordScanner;
     private int correctLetters = 0;
+    //Game menu
+    private final String quitGame = "QUIT";
+    private final String backToMenu = "MENU";
+    private final String yes = "Y";
+    private final String no = "N";
 
-    {
-        try {
-            wordScanner = new Scanner(new File("/Users/amandacirverius/Documents/Melinas/minaord.txt"));
-
-        } catch (
-                FileNotFoundException e) {
-            System.out.println("File could not be read!");
-        }
-
-    }
+    private boolean playing = false;
 
     public Hangman() {
+
         startMenu();
-    }
-
-    /**
-     * Returns the number of guesses left in current round.
-     *
-     * @return int of the number of guesses.
-     */
-    public int getGuesses() {
-        return guesses;
-    }
-
-    /**
-     * Sets up a new game with a random selected word and presents this to the player as underscores.
-     *
-     * @param words - the file to read a random word from.
-     */
-    public void startGame(File words) {
-
     }
 
     private void startMenu() {
         System.out.println("\nWelcome to Hangman v1.0");
-        GameMenu menu = new GameMenu();
-        System.out.print(menu.showMenu());
+        final GameMenu menu = new GameMenu();
 
-        Scanner scanner = new Scanner(System.in);
-
-        String choice = scanner.next();
+        final Scanner scanner = new Scanner(System.in);
+        final String choice = scanner.next();
 
         if (choice.equals(menu.getStartOption())) {
-            getWord();
+            createUnderscores();
         } else if (choice.equals(menu.getQuitOption())) {
-            quitGame();
+            endGame();
         } else {
             System.out.println("\nInvalid menu choice.");
-            System.out.println(menu.showMenu());
+            startMenu();
         }
         scanner.close();
     }
 
+    // TODO Complete options for username and difficulty-level
     private void setUpGame() {
-        System.out.println("Type 'Quit' to quit, 'Menu' to return to menu");
+        System.out.println("(Type 'Quit' to quit, 'Menu' to return to menu)");
 
         System.out.print("\nType in a user name: ");
 
-        Scanner nameScanner = new Scanner(System.in);
+        final Scanner scanner = new Scanner(System.in);
+        final String username = scanner.next();
 
-        String username = nameScanner.nextLine();
+        if (username.toUpperCase().equals(quitGame)) {
+            endGame();
+        } else if (username.toUpperCase().equals(backToMenu)) {
+            startMenu();
+        } else {
+            System.out.println("Test");
+            theGamer = new Player(username);
+            System.out.println("Hello " + theGamer.getUsername());
+        }
 
-        Player theGamer = new Player(username);
+        // TODO DifficultyMenu diffMenu = new DifficultyMenu();
 
-        System.out.println("Chose difficulty level:" +
-                "\n1. Easy\n2. Medium\n3. Hard");
-
-        String difficulty = nameScanner.next();
-
-        nameScanner.close();
+        createUnderscores();
+        scanner.close();
     }
 
-    private void getWord() {
+    private void createUnderscores() {
+        final Word word = new Word();
 
-//        while (wordScanner.hasNext()) {
-//            String word = wordScanner.nextLine();
-//
-//            wordList.add(word);
-//        }
-//        wordScanner.close();
-
-        Words word = new Words();
-
-        String selectedWord = word.getWordToGuess;
+        final String selectedWord = word.getWordToGuess();
         for (int i = 0; i < selectedWord.length(); i++) {
             letterList.add(String.valueOf(selectedWord.charAt(i)));
             underscores.add("_ ");
@@ -114,13 +86,10 @@ public class Hangman {
         askQuestion();
     }
 
-    private void quitGame() {
-
-    }
-
     private void askQuestion() {
+        playing = true;
         System.out.println("Word to guess:");
-        String prettyUnderscore = getUnderscores(underscores);
+        String prettyUnderscore = prettyPrintedList(underscores);
         System.out.println(prettyUnderscore);
         System.out.println("\nNumber of guesses left: " + guesses);
         System.out.print("Guess letter: ");
@@ -128,24 +97,30 @@ public class Hangman {
         evaluateGuess();
     }
 
-    private String getUnderscores(final ArrayList<String> list) {
-        return list.toString()
-                .replace(",", "")
-                .replace("[", "")
-                .replace("]", "");
-    }
-
     /**
      * Checks if the letter guessed by the player is present in the current word.
-     *
-     * @return boolean - true if letter is present in word.
      */
     private void evaluateGuess() {
-
-        Scanner guessScan = new Scanner(System.in);
         boolean wrongLetter = true;
 
-        String guess = guessScan.next().toUpperCase();
+        final Scanner scanner = new Scanner(System.in);
+        final String guess = scanner.next().toUpperCase();
+
+        if (guess.equals(quitGame)) {
+            endGame();
+            return;
+        } else if (guess.equals(backToMenu)) {
+            resetGame();
+            startMenu();
+            return;
+        }
+
+        if (!guessedLetters.contains(guess)) {
+            guessedLetters.add(guess);
+        } else {
+            System.out.println("You've already guessed " + guess + ". Guess again!");
+            evaluateGuess();
+        }
 
         for (int i = 0; i < letterList.size(); i++) {
             if (letterList.get(i).equals(guess)) {
@@ -154,57 +129,32 @@ public class Hangman {
                 correctLetters++;
             }
         }
+
         if (wrongLetter) {
             System.out.println("Incorrect letter.");
         }
-
+        System.out.println("Guessed letters: " + prettyPrintedList(guessedLetters));
         guesses--;
         result();
-        guessScan.close();
-
+        scanner.close();
     }
 
     /**
-     * Updates lettersList if guess was correct and displays the current state of the lettersList as well as current number of guesses.
+     *
      */
     private void result() {
 
-        if (guesses > 0) {
+        if (guesses >= 0) {
             if (correctLetters == letterList.size()) {
                 roundWon();
             } else {
-                askQuestion();
+                if (guesses > 0) {
+                    askQuestion();
+                } else {
+                    gameOver();
+                }
             }
-        } else {
-            gameOver();
         }
-    }
-
-    /**
-     * Draws next part of the hangman if the guess was incorrect.
-     */
-    private void drawHangman() {
-    }
-
-    /**
-     * Displays game over if the player has failed to guess the lettersList. Gives the option to start a new game.
-     */
-    private void gameOver() {
-        System.out.println("No more guesses! Game over");
-        System.out.println("Correct word was: " + getUnderscores(letterList));
-
-        newGame();
-    }
-
-    /**
-     * Displays result of round if player has guessed the whole lettersList correctly.
-     * Also gives the option to start new round, or end game.
-     */
-    private void roundWon() {
-        System.out.println(getUnderscores(letterList));
-        System.out.println("Correct! You Won! \n You used " + correctLetters + " guesses.");
-
-        newGame();
     }
 
     /**
@@ -213,26 +163,85 @@ public class Hangman {
     private void newGame() {
         System.out.println("Start new game? (Y/N)");
 
-        Scanner scanner = new Scanner(System.in);
+        final Scanner scanner = new Scanner(System.in);
+        final String answer = scanner.next().toUpperCase();
 
-        String answer = scanner.next().toUpperCase();
-
-        if (answer.equals("Y")) {
-            startMenu();
-        } else if (answer.equals("N")) {
-            System.out.println("Goodbye");
+        if (answer.equals(yes)) {
+            createUnderscores();
+        } else if (answer.equals(no)) {
+            System.out.println("Thanks for playing Hangman! Goodbye.");
+            playing = false;
         } else {
             System.out.println("Invalid option, please pick Y or N");
-            roundWon();
+            newGame();
         }
-
         scanner.close();
     }
 
-    /**
-     * Checks how many underscoreList are left to guess in current lettersList, if none calls round won.
-     */
-    private void lettersLeft() {
+    private String prettyPrintedList(final ArrayList<String> list) {
+        return list.toString()
+                .replace(",", "")
+                .replace("[", "")
+                .replace("]", "");
+    }
 
+    // TODO Implement drawing of hangman
+
+    /**
+     * Draws next part of the hangman if the guess was incorrect.
+     */
+    private void drawHangman() {
+    }
+
+    /**
+     * Displays result of round if player has guessed the whole word correctly.
+     * Also gives the option to start new round, or end game.
+     */
+    private void roundWon() {
+        System.out.println(prettyPrintedList(letterList));
+        System.out.println("Correct! You Won!\nYou used " + (10 - guesses) + " guesses.");
+
+        resetGame();
+        newGame();
+    }
+
+    /**
+     * Displays game over if the player has failed to guess the word, as well as the correct word.
+     * Gives the option to start a new game.
+     */
+    private void gameOver() {
+        System.out.println("No more guesses! Game over");
+        System.out.println("Correct word was: " + prettyPrintedList(letterList));
+
+        resetGame();
+        newGame();
+    }
+
+    private void resetGame() {
+        letterList.clear();
+        underscores.clear();
+        guesses = 10;
+        correctLetters = 0;
+        guessedLetters.clear();
+    }
+
+    private void endGame() {
+        System.out.println("Are you sure you want to quit? (Y/N)");
+
+        final Scanner scanner = new Scanner(System.in);
+        final String answer = scanner.next().toUpperCase();
+
+        if (answer.equals(no)) {
+            if (playing) {
+                askQuestion();
+            } else {
+                startMenu();
+            }
+        } else if (answer.equals(yes)) {
+            playing = false;
+            resetGame();
+            System.out.println("Thanks for playing Hangman! Goodbye.");
+        }
+        scanner.close();
     }
 }

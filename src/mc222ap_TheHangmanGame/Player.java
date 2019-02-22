@@ -6,8 +6,6 @@ package mc222ap_TheHangmanGame;
  * @author Melina Cirverius
  * @version 1.0
  */
-
-
 public class Player {
 
     // The name of the player.
@@ -31,8 +29,11 @@ public class Player {
         return correctGuesses;
     }
 
+    public void addCorrectGuess() {
+        correctGuesses++;
+    }
+
     public int getRounds() {
         return rounds;
     }
-
 }
