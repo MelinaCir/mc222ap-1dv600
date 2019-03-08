@@ -27,6 +27,7 @@ public class Hangman {
 
     boolean inTesting = false;
     boolean playing = false;
+    boolean wrongLetter = true;
     private Scanner scanner;
 
 
@@ -59,15 +60,14 @@ public class Hangman {
 
         System.out.print("\nType in a user name: ");
 
-        final Scanner scanner = new Scanner(System.in);
-        final String username = scanner.next();
+        final Scanner scanner1 = new Scanner(System.in);
+        final String username = scanner1.next();
 
         if (username.toUpperCase().equals(quitGame)) {
             endGame();
         } else if (username.toUpperCase().equals(backToMenu)) {
             startMenu();
         } else {
-            System.out.println("Test");
             theGamer = new Player(username);
             System.out.println("Hello " + theGamer.getUsername());
         }
@@ -75,7 +75,7 @@ public class Hangman {
         // TODO DifficultyMenu diffMenu = new DifficultyMenu();
 
         createUnderscores();
-        scanner.close();
+        scanner1.close();
     }
 
     /**
@@ -123,10 +123,8 @@ public class Hangman {
      * Checks if the letter guessed by the player is present in the current word.
      * Also checks if the letter has already been guessed.
      */
-    void evaluateGuess(String letter) {
+    void evaluateGuess(String guess) {
         if (playing) {
-            boolean wrongLetter = true;
-            String guess = letter;
 
             if (!guessedLetters.contains(guess)) {
                 guessedLetters.add(guess);
@@ -148,7 +146,6 @@ public class Hangman {
             }
             if (!inTesting) {
                 System.out.println("Guessed letters: " + prettyPrintedList(guessedLetters));
-                System.out.println("SIZE" + guessedLetters.size());
                 guesses--;
                 result();
                 scanner.close();
@@ -208,7 +205,11 @@ public class Hangman {
     /**
      * Draws next part of the hangman if the guess was incorrect.
      */
-    private void drawHangman() {
+    String drawHangman() {
+//        if (wrongLetter){
+//            return "__________";
+//        }
+        return "";
     }
 
     /**

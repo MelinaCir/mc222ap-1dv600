@@ -15,7 +15,7 @@ public class DifficultyMenu {
     }
 
     public void displayMenu() {
-        System.out.println("Chose difficulty level:" + "\n1. Easy\n2. Medium\n3. Hard");
+        System.out.println("Choose difficulty level:" + "\n1. Easy\n2. Medium\n3. Hard");
         getWord();
     }
 
@@ -36,11 +36,21 @@ public class DifficultyMenu {
     }
 
     private Word getWord() {
+
+        return new Word();
+    }
+
+    String readOption() {
         Scanner optionScanner = new Scanner(System.in);
-        theWord = new Word();
 
+        if (optionScanner.next().equals(easyOption)) {
+            return "easy";
+        } else if (optionScanner.next().equals(mediumOption)) {
+            return "medium";
+        } else if (optionScanner.next().equals(hardOption)) {
+            return "hard";
+        }
         optionScanner.close();
-
-        return theWord;
+        return "";
     }
 }

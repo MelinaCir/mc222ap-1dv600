@@ -16,6 +16,10 @@ public class Word {
         wordToGuess = pickWord();
     }
 
+    public Word(String difficulty) {
+
+    }
+
     public String getWordToGuess() {
         return wordToGuess;
     }
