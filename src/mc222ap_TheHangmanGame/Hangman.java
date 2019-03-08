@@ -80,7 +80,7 @@ public class Hangman {
 
     /**
      * Takes each letter in the word to guess and adds it to a list.
-     * Also adds an underscore per letter to the underscore list.
+     * Also adds an underscore per letter to the guess list.
      *
      * @return ArrayList with each letter.
      */
