@@ -11,8 +11,9 @@ import java.util.Scanner;
  */
 public class Hangman {
 
-    private final ArrayList<String> letterList = new ArrayList<>();
-    private final ArrayList<String> underscores = new ArrayList<>();
+    private String selectedWord;
+    private ArrayList<String> letterList = new ArrayList<>();
+    private final ArrayList<String> guessList = new ArrayList<>();
     private final ArrayList<String> guessedLetters = new ArrayList<>();
     private Player theGamer;
     // The number of guesses the player gets
@@ -24,14 +25,16 @@ public class Hangman {
     private final String yes = "Y";
     private final String no = "N";
 
-    private boolean playing = false;
+    boolean inTesting = false;
+    boolean playing = false;
+    private Scanner scanner;
 
-    public Hangman() {
 
-        startMenu();
+    public Hangman(String word) {
+        this.selectedWord = word;
     }
 
-    private void startMenu() {
+    void startMenu() {
         System.out.println("\nWelcome to Hangman v1.0");
         final GameMenu menu = new GameMenu();
 
@@ -39,7 +42,8 @@ public class Hangman {
         final String choice = scanner.next();
 
         if (choice.equals(menu.getStartOption())) {
-            createUnderscores();
+            letterList = createUnderscores();
+            askQuestion();
         } else if (choice.equals(menu.getQuitOption())) {
             endGame();
         } else {
@@ -74,69 +78,82 @@ public class Hangman {
         scanner.close();
     }
 
-    private void createUnderscores() {
-        final Word word = new Word();
-
-        final String selectedWord = word.getWordToGuess();
+    /**
+     * Takes each letter in the word to guess and adds it to a list.
+     * Also adds an underscore per letter to the underscore list.
+     *
+     * @return ArrayList with each letter.
+     */
+    ArrayList<String> createUnderscores() {
         for (int i = 0; i < selectedWord.length(); i++) {
             letterList.add(String.valueOf(selectedWord.charAt(i)));
-            underscores.add("_ ");
+            guessList.add("_ ");
         }
-
-        askQuestion();
+        return letterList;
     }
 
     private void askQuestion() {
         playing = true;
         System.out.println("Word to guess:");
-        String prettyUnderscore = prettyPrintedList(underscores);
+        String prettyUnderscore = prettyPrintedList(guessList);
         System.out.println(prettyUnderscore);
         System.out.println("\nNumber of guesses left: " + guesses);
         System.out.print("Guess letter: ");
 
-        evaluateGuess();
+        evaluateGuess(scanUserInput());
     }
+
+
+    private String scanUserInput() {
+        scanner = new Scanner(System.in);
+        final String input = scanner.next().toUpperCase();
+
+        if (input.equals(quitGame)) {
+            endGame();
+        } else if (input.equals(backToMenu)) {
+            resetGame();
+            startMenu();
+        }
+        return input;
+    }
+
+    // TODO implement check if the player types more than one letter.
 
     /**
      * Checks if the letter guessed by the player is present in the current word.
+     * Also checks if the letter has already been guessed.
      */
-    private void evaluateGuess() {
-        boolean wrongLetter = true;
+    void evaluateGuess(String letter) {
+        if (playing) {
+            boolean wrongLetter = true;
+            String guess = letter;
 
-        final Scanner scanner = new Scanner(System.in);
-        final String guess = scanner.next().toUpperCase();
+            if (!guessedLetters.contains(guess)) {
+                guessedLetters.add(guess);
+            } else {
+                System.out.println("You've already guessed " + guess + ". Guess again!");
+                evaluateGuess(scanUserInput());
+            }
 
-        if (guess.equals(quitGame)) {
-            endGame();
-            return;
-        } else if (guess.equals(backToMenu)) {
-            resetGame();
-            startMenu();
-            return;
-        }
+            for (int i = 0; i < letterList.size(); i++) {
+                if (letterList.get(i).equals(guess)) {
+                    guessList.set(i, guess);
+                    wrongLetter = false;
+                    correctLetters++;
+                }
+            }
 
-        if (!guessedLetters.contains(guess)) {
-            guessedLetters.add(guess);
-        } else {
-            System.out.println("You've already guessed " + guess + ". Guess again!");
-            evaluateGuess();
-        }
-
-        for (int i = 0; i < letterList.size(); i++) {
-            if (letterList.get(i).equals(guess)) {
-                underscores.set(i, guess);
-                wrongLetter = false;
-                correctLetters++;
+            if (wrongLetter) {
+                System.out.println("Incorrect letter.");
+            }
+            if (!inTesting) {
+                System.out.println("Guessed letters: " + prettyPrintedList(guessedLetters));
+                System.out.println("SIZE" + guessedLetters.size());
+                guesses--;
+                result();
+                scanner.close();
             }
         }
-
-        if (wrongLetter) {
-            System.out.println("Incorrect letter.");
-        }
-        System.out.println("Guessed letters: " + prettyPrintedList(guessedLetters));
-        guesses--;
-        result();
-        scanner.close();
     }
 
     /**
@@ -163,11 +180,12 @@ public class Hangman {
     private void newGame() {
         System.out.println("Start new game? (Y/N)");
 
-        final Scanner scanner = new Scanner(System.in);
-        final String answer = scanner.next().toUpperCase();
+        final Scanner scanner2 = new Scanner(System.in);
+        final String answer = scanner2.next().toUpperCase();
 
         if (answer.equals(yes)) {
-            createUnderscores();
+            letterList = createUnderscores();
+            askQuestion();
         } else if (answer.equals(no)) {
             System.out.println("Thanks for playing Hangman! Goodbye.");
             playing = false;
@@ -175,10 +193,10 @@ public class Hangman {
             System.out.println("Invalid option, please pick Y or N");
             newGame();
         }
-        scanner.close();
+        scanner2.close();
     }
 
-    private String prettyPrintedList(final ArrayList<String> list) {
+    String prettyPrintedList(final ArrayList<String> list) {
         return list.toString()
                 .replace(",", "")
                 .replace("[", "")
@@ -212,14 +230,14 @@ public class Hangman {
     private void gameOver() {
         System.out.println("No more guesses! Game over");
         System.out.println("Correct word was: " + prettyPrintedList(letterList));
-
+        playing = false;
         resetGame();
         newGame();
     }
 
     private void resetGame() {
         letterList.clear();
-        underscores.clear();
+        guessList.clear();
         guesses = 10;
         correctLetters = 0;
         guessedLetters.clear();
@@ -228,8 +246,8 @@ public class Hangman {
     private void endGame() {
         System.out.println("Are you sure you want to quit? (Y/N)");
 
-        final Scanner scanner = new Scanner(System.in);
-        final String answer = scanner.next().toUpperCase();
+        final Scanner scanner3 = new Scanner(System.in);
+        final String answer = scanner3.next().toUpperCase();
 
         if (answer.equals(no)) {
             if (playing) {
@@ -240,8 +258,41 @@ public class Hangman {
         } else if (answer.equals(yes)) {
             playing = false;
             resetGame();
-            System.out.println("Thanks for playing Hangman! Goodbye.");
+            System.out.println("Thank you for playing Hangman! Goodbye.");
         }
-        scanner.close();
+        scanner3.close();
     }
+
+    public String getSelectedWord() {
+        return selectedWord;
+    }
+
+    public ArrayList<String> getLetterList() {
+        return letterList;
+    }
+
+    public ArrayList<String> getGuessList() {
+        return guessList;
+    }
+
+    public ArrayList<String> getGuessedLetters() {
+        return guessedLetters;
+    }
+
+    public Player getTheGamer() {
+        return theGamer;
+    }
+
+    public int getGuesses() {
+        return guesses;
+    }
+
+    public int getCorrectLetters() {
+        return correctLetters;
+    }
+
+    public Scanner getScanner() {
+        return scanner;
+    }
+
 }

@@ -11,6 +11,8 @@ public class HangmanMain {
 
     public static void main(String[] args) {
 
-        new Hangman();
+        Word word = new Word();
+        Hangman game = new Hangman(word.getWordToGuess());
+        game.startMenu();
     }
 }

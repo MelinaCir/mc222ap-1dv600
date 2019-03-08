@@ -13,16 +13,20 @@ public class Word {
 
     public Word() {
 
-        pickWord();
+        wordToGuess = pickWord();
     }
 
     public String getWordToGuess() {
         return wordToGuess;
     }
 
-    private void pickWord() {
+    public void setWordToGuess(String wordToGuess) {
+        this.wordToGuess = wordToGuess;
+    }
+
+    private String pickWord() {
         try {
-            wordScanner = new Scanner(new File("/Users/melinacirverius/java_kurser/mc222ap-1dv600/documentation/wordfile.txt"));
+            wordScanner = new Scanner(new File("documentation/wordfile.txt"));
         } catch (
                 FileNotFoundException e) {
             System.out.println("File could not be read!");
@@ -35,6 +39,6 @@ public class Word {
         }
         wordScanner.close();
 
-        wordToGuess = wordList.get((int) (Math.random() * wordList.size()));
+        return wordList.get((int) (Math.random() * wordList.size()));
     }
 }
