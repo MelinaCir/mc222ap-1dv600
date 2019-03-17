@@ -9,45 +9,56 @@ public class DifficultyMenu {
     private String hardOption = "3";
     private Word theWord;
 
-    public DifficultyMenu() {
+    public DifficultyMenu()
+    {
 
         displayMenu();
     }
 
-    public void displayMenu() {
+    public void displayMenu()
+    {
         System.out.println("Choose difficulty level:" + "\n1. Easy\n2. Medium\n3. Hard");
         getWord();
     }
 
-    public Word getTheWord() {
+    public Word getTheWord()
+    {
         return theWord;
     }
 
-    public String getEasyOption() {
+    public String getEasyOption()
+    {
         return easyOption;
     }
 
-    public String getMediumOption() {
+    public String getMediumOption()
+    {
         return mediumOption;
     }
 
-    public String getHardOption() {
+    public String getHardOption()
+    {
         return hardOption;
     }
 
-    private Word getWord() {
+    private Word getWord()
+    {
 
         return new Word();
     }
 
-    String readOption() {
+    String readOption()
+    {
         Scanner optionScanner = new Scanner(System.in);
 
-        if (optionScanner.next().equals(easyOption)) {
+        if (optionScanner.next().equals(easyOption))
+        {
             return "easy";
-        } else if (optionScanner.next().equals(mediumOption)) {
+        } else if (optionScanner.next().equals(mediumOption))
+        {
             return "medium";
-        } else if (optionScanner.next().equals(hardOption)) {
+        } else if (optionScanner.next().equals(hardOption))
+        {
             return "hard";
         }
         optionScanner.close();

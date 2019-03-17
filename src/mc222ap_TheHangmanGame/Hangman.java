@@ -1,218 +1,148 @@
 package mc222ap_TheHangmanGame;
 
-import java.util.Scanner;
-
-/**
- * Class Hangman creates a representation of a hangman game.
- *
- * @author Melina Cirverius
- * @version 1.0
- */
 public class Hangman {
 
-    private Player theGamer;
-    private GuessHandler guessHandler;
+    private final String stakePart = "\t\t\t            []\n";
+    private final String topPole = "\t\t   _____________\t\n";
+    private final String ground = "  ______________________[]_____";
 
-    //Game menu
-    private final String quitGame = "QUIT";
-    private final String backToMenu = "MENU";
-    private final String yes = "Y";
-    private final String no = "N";
+    private final String stake = stakePart + stakePart + stakePart + stakePart + stakePart + stakePart + stakePart +
+            stakePart + stakePart + stakePart + stakePart + stakePart + stakePart + stakePart +
+            "  ______________________[]_____";
 
-    boolean playing = false;
-    private Scanner scanner;
+    private final String pole = topPole +
+            stakePart + stakePart + stakePart + stakePart + stakePart + stakePart + stakePart +
+            stakePart + stakePart + stakePart + stakePart + stakePart + stakePart + stakePart +
+            ground;
 
+    private final String support = topPole +
+            "\t\t           \\\t[]\n" +
+            "\t\t      \t    \\ \t[]\n" +
+            "             \t     \\ \t[]\n" +
+            "               \t      \\ []\n" +
+            "                \t      \\ []\n" +
+            "                \t       \\[]\n" +
+            stakePart + stakePart + stakePart + stakePart + stakePart +
+            stakePart + stakePart + stakePart + stakePart +
+            ground;
 
-    public Hangman(final GuessHandler guessHandler)
+    private final String rope = topPole +
+            "\t\t  |        \\\t[]\n" +
+            "\t\t  |   \t    \\ \t[]\n" +
+            "\t\t  |   \t     \\\t[]\n" +
+            "              \t      \\ []\n" +
+            "              \t       \\[]\n" +
+            stakePart + stakePart + stakePart + stakePart + stakePart + stakePart +
+            stakePart + stakePart + stakePart + stakePart + stakePart +
+            ground;
+
+    private final String noose = topPole +
+            "\t\t  |        \\\t[]\n" +
+            "\t\t  |   \t    \\ \t[]\n" +
+            "       ___|__\t     \\ \t[]\n" +
+            "      /      \\ \t      \\ []\n" +
+            "     |        |\t       \\[]\n" +
+            "     |        |\t        []\n" +
+            "      \\______/\t        []\n" +
+            stakePart + stakePart + stakePart + stakePart +
+            stakePart + stakePart + stakePart + stakePart + stakePart +
+            ground;
+
+    private final String head = topPole +
+            "\t\t  |        \\\t[]\n" +
+            "\t\t  |   \t    \\ \t[]\n" +
+            "        __|___\t     \\\t[]\n" +
+            "       / _[]_ \\ \t  \\ []\n" +
+            "      | |x  x| |\t   \\[]\n" +
+            "      | |____| |\t    []\n" +
+            "       \\__[]__/\t        []\n" +
+            stakePart + stakePart + stakePart + stakePart +
+            stakePart + stakePart + stakePart +
+            ground;
+
+    private final String body = topPole +
+            "\t\t  |        \\\t[]\n" +
+            "\t\t  |   \t    \\ \t[]\n" +
+            "        __|___\t     \\\t[]\n" +
+            "       / _[]_ \\ \t  \\ []\n" +
+            "      | |x  x| |\t   \\[]\n" +
+            "      | |____| |\t    []\n" +
+            "       \\__[]__/\t        []\n" +
+            "        /    \\          []\n" +
+            "        |    |          []\n" +
+            "        |____|\t        []\n" +
+            stakePart + stakePart + stakePart + stakePart +
+            ground;
+
+    private final String arms = topPole +
+            "\t\t  |        \\\t[]\n" +
+            "\t\t  |   \t    \\ \t[]\n" +
+            "        __|___\t     \\\t[]\n" +
+            "       / _[]_ \\ \t  \\ []\n" +
+            "      | |x  x| |\t   \\[]\n" +
+            "      | |____| |\t    []\n" +
+            "       \\__[]__/\t        []\n" +
+            "       //    \\\\         []\n" +
+            "      //|    |\\\\        []\n" +
+            "        |____|\t        []\n" +
+            stakePart + stakePart + stakePart + stakePart +
+            ground;
+
+    private final String hangman = topPole +
+            "\t\t  |        \\\t[]\n" +
+            "\t\t  |   \t    \\ \t[]\n" +
+            "        __|___\t     \\\t[]\n" +
+            "       / _[]_ \\ \t  \\ []\n" +
+            "      | |x  x| |\t   \\[]\n" +
+            "      | |____| |\t    []\n" +
+            "       \\__[]__/\t        []\n" +
+            "       //    \\\\         []\n" +
+            "      //|    |\\\\        []\n" +
+            "        |____|\t        []\n" +
+            "        | || |\t\t    []\n" +
+            "        | || |          []\n" +
+            "       [__][__]         []\n" +
+            stakePart + ground;
+
+    int line = 0;
+
+    public Hangman(int wrongGuess)
     {
-
-        this.guessHandler = guessHandler;
+        line = wrongGuess;
     }
 
-    void startMenu() {
-        System.out.println("\nWelcome to Hangman v1.0");
-        final GameMenu menu = new GameMenu();
-
-        final Scanner scanner = new Scanner(System.in);
-        final String choice = scanner.next();
-
-        if (choice.equals(menu.getStartOption())) {
-            guessHandler.createUnderscores();
-            askQuestion();
-        } else if (choice.equals(menu.getQuitOption())) {
-            endGame();
-        } else {
-            System.out.println("\nInvalid menu choice.");
-            startMenu();
-        }
-        scanner.close();
-    }
-
-    // TODO Complete options for username and difficulty-level
-    private void setUpGame() {
-        System.out.println("(Type 'Quit' to quit, 'Menu' to return to menu)");
-
-        System.out.print("\nType in a user name: ");
-
-        final Scanner scanner1 = new Scanner(System.in);
-        final String username = scanner1.next();
-
-        if (username.toUpperCase().equals(quitGame)) {
-            endGame();
-        } else if (username.toUpperCase().equals(backToMenu)) {
-            startMenu();
-        } else {
-            theGamer = new Player(username);
-            System.out.println("Hello " + theGamer.getUsername());
-        }
-
-        // TODO DifficultyMenu diffMenu = new DifficultyMenu();
-
-        guessHandler.createUnderscores();
-        scanner1.close();
-    }
-
-    private void askQuestion() {
-        playing = true;
-        System.out.println("Word to guess:");
-//        String prettyUnderscore = prettyPrintedList(guessList);
-        String prettyGuess = guessHandler.getPrettyGuess();
-        System.out.println(prettyGuess);
-        System.out.println("\nNumber of guesses left: " + guessHandler.getGuesses());
-        System.out.print("Guess letter: ");
-
-        boolean success = guessHandler.evaluateGuess(scanUserInput(), playing);
-        while (!success)
+    private String choosePart()
+    {
+        if (line == 1)
         {
-            success = guessHandler.evaluateGuess(scanUserInput(), playing);
-        }
-        System.out.println("Guessed letters: " + guessHandler.getPrettyGuessedLetter());
-        result();
-        scanner.close();
-
-    }
-
-
-    private String scanUserInput() {
-        scanner = new Scanner(System.in);
-        final String input = scanner.next().toUpperCase();
-
-        if (input.equals(quitGame)) {
-            endGame();
-        } else if (input.equals(backToMenu)) {
-            resetGame();
-            startMenu();
-        }
-        return input;
-    }
-
-    /**
-     *
-     */
-    private void result() {
-        int guesses = guessHandler.getGuesses();
-        if (guesses >= 0) {
-            if (guessHandler.getCorrectLetters() == guessHandler.getLetterList().size())
-            {
-                roundWon();
-            } else {
-                if (guesses > 0) {
-                    askQuestion();
-                } else {
-                    gameOver();
-                }
-            }
-        }
-    }
-
-    /**
-     *
-     */
-    private void newGame() {
-        System.out.println("Start new game? (Y/N)");
-
-        final Scanner scanner2 = new Scanner(System.in);
-        final String answer = scanner2.next().toUpperCase();
-
-        if (answer.equals(yes)) {
-            guessHandler.createUnderscores();
-            askQuestion();
-        } else if (answer.equals(no)) {
-            System.out.println("Thanks for playing Hangman! Goodbye.");
-            playing = false;
-        } else {
-            System.out.println("Invalid option, please pick Y or N");
-            newGame();
-        }
-        scanner2.close();
-    }
-
-    // TODO Implement drawing of hangman
-
-    /**
-     * Draws next part of the hangman if the guess was incorrect.
-     */
-    String drawHangman() {
-//        if (wrongLetter){
-//            return "__________";
-//        }
-        return "";
-    }
-
-    /**
-     * Displays result of round if player has guessed the whole word correctly.
-     * Also gives the option to start new round, or end game.
-     */
-    private void roundWon() {
-        System.out.println(guessHandler.getPrettyLetterList());
-        System.out.println("Correct! You Won!\nYou used " + (10 - guessHandler.getGuesses()) + " guesses.");
-
-        resetGame();
-        newGame();
-    }
-
-    /**
-     * Displays game over if the player has failed to guess the word, as well as the correct word.
-     * Gives the option to start a new game.
-     */
-    private void gameOver() {
-        System.out.println("No more guesses! Game over");
-        System.out.println("Correct word was: " + guessHandler.getPrettyLetterList());
-        playing = false;
-        resetGame();
-        newGame();
-    }
-
-    private void resetGame() {
-        guessHandler.reset();
-    }
-
-    private void endGame() {
-        System.out.println("Are you sure you want to quit? (Y/N)");
-
-        final Scanner scanner3 = new Scanner(System.in);
-        final String answer = scanner3.next().toUpperCase();
-
-        if (answer.equals(no)) {
-            if (playing) {
-                askQuestion();
-            } else {
-                startMenu();
-            }
-        } else if (answer.equals(yes)) {
-            playing = false;
-            resetGame();
-            System.out.println("Thank you for playing Hangman! Goodbye.");
+            return ground;
+        } else if (line == 2)
+        {
+            return stake;
+        } else if (line == 3)
+        {
+            return pole;
+        } else if (line == 4)
+        {
+            return support;
+        } else if (line == 5)
+        {
+            return rope;
+        } else if (line == 6)
+        {
+            return noose;
+        } else if (line == 7)
+        {
+            return head;
+        } else if (line == 8)
+        {
+            return body;
+        } else if (line == 9)
+        {
+            return arms;
         } else
         {
-            System.out.println("Invalid option, please pick Y or N");
-            endGame();
+            return hangman;
         }
-        scanner3.close();
     }
-
-    public Scanner getScanner() {
-        return scanner;
-    }
-
 }

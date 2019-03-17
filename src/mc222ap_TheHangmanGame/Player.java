@@ -17,23 +17,28 @@ public class Player {
     // The number of correct words guessed/rounds completed.
     private int rounds = 0;
 
-    public Player(String name){
+    public Player(String name)
+    {
         username = name;
     }
 
-    public String getUsername() {
+    public String getUsername()
+    {
         return username;
     }
 
-    public int getCorrectGuesses() {
+    public int getCorrectGuesses()
+    {
         return correctGuesses;
     }
 
-    public void addCorrectGuess() {
+    public void addCorrectGuess()
+    {
         correctGuesses++;
     }
 
-    public int getRounds() {
+    public int getRounds()
+    {
         return rounds;
     }
 }

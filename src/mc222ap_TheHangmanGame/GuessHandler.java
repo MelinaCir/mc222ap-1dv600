@@ -11,6 +11,7 @@ public class GuessHandler {
     // The number of guesses the player gets
     private int guesses = 10;
     private int correctLetters = 0;
+    private int wrongGuesses = 0;
     boolean wrongLetter = true;
     private String wordToGuess;
 
@@ -64,7 +65,7 @@ public class GuessHandler {
     {
         if (playing)
         {
-            if (!wordToGuess.contains(guess))
+            if (!guessedLetters.contains(guess))
             {
                 guessedLetters.add(guess);
                 for (int i = 0; i < letterList.size(); i++)
@@ -79,6 +80,7 @@ public class GuessHandler {
                 if (wrongLetter)
                 {
                     System.out.println("Incorrect letter.");
+                    wrongGuesses++;
                 }
                 guesses--;
                 return true;
@@ -101,6 +103,7 @@ public class GuessHandler {
 
     ArrayList<String> createUnderscores()
     {
+        wordToGuess = new Word().getWordToGuess();
         for (int i = 0; i < wordToGuess.length(); i++)
         {
             letterList.add(String.valueOf(wordToGuess.charAt(i)));
@@ -130,6 +133,11 @@ public class GuessHandler {
     public String getPrettyGuessedLetter()
     {
         return prettyPrintedList(guessedLetters);
+    }
+
+    public int getWrongGuesses()
+    {
+        return wrongGuesses;
     }
 
     public void reset()

@@ -7,7 +7,7 @@ class HangmanTest {
 
 //    @Test
 //    void shouldCreateRightNumberOfUnderscores() {
-//        Hangman sut = new Hangman("LEGO");
+//        HangmanGame sut = new HangmanGame("LEGO");
 //        sut.createUnderscores();
 //
 //        int expected = 4;
@@ -18,7 +18,7 @@ class HangmanTest {
 //
 //    @Test
 //    void shouldCreateTypeUnderscore() {
-//        Hangman sut = new Hangman("LEGO");
+//        HangmanGame sut = new HangmanGame("LEGO");
 //        sut.createUnderscores();
 //
 //        String expected = "_ ";
@@ -29,7 +29,7 @@ class HangmanTest {
 //
 //    @Test
 //    void shouldFindCorrectGuess() {
-//        Hangman sut = new Hangman("LEGO");
+//        HangmanGame sut = new HangmanGame("LEGO");
 //        sut.createUnderscores();
 //        sut.playing = true;
 //        sut.inTesting = true;
@@ -45,7 +45,7 @@ class HangmanTest {
 //
 //    @Test
 //    void shouldNotFindIncorrectGuess() {
-//        Hangman sut = new Hangman("LEGO");
+//        HangmanGame sut = new HangmanGame("LEGO");
 //        sut.createUnderscores();
 //        sut.inTesting = true;
 //        sut.playing = true;
@@ -61,7 +61,7 @@ class HangmanTest {
 //
 //    @Test
 //    void shouldDrawFirstPartOfHangman() {
-//        Hangman sut = new Hangman("LEGO");
+//        HangmanGame sut = new HangmanGame("LEGO");
 //        sut.createUnderscores();
 //        sut.inTesting = true;
 //        sut.playing = true;

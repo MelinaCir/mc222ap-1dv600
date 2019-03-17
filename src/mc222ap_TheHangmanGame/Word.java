@@ -11,32 +11,40 @@ public class Word {
     private Scanner wordScanner;
     private String wordToGuess;
 
-    public Word() {
+    public Word()
+    {
 
         wordToGuess = pickWord();
     }
 
-    public Word(String difficulty) {
+    public Word(String difficulty)
+    {
 
     }
 
-    public String getWordToGuess() {
+    public String getWordToGuess()
+    {
         return wordToGuess;
     }
 
-    public void setWordToGuess(String wordToGuess) {
+    public void setWordToGuess(String wordToGuess)
+    {
         this.wordToGuess = wordToGuess;
     }
 
-    private String pickWord() {
-        try {
+    private String pickWord()
+    {
+        try
+        {
             wordScanner = new Scanner(new File("documentation/wordfile.txt"));
         } catch (
-                FileNotFoundException e) {
+                FileNotFoundException e)
+        {
             System.out.println("File could not be read!");
         }
 
-        while (wordScanner.hasNext()) {
+        while (wordScanner.hasNext())
+        {
             String word = wordScanner.nextLine();
 
             wordList.add(word);

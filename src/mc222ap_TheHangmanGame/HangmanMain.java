@@ -9,11 +9,15 @@ package mc222ap_TheHangmanGame;
 
 public class HangmanMain {
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
 
         Word word = new Word();
         GuessHandler guessHandler = new GuessHandler(word.getWordToGuess());
-        Hangman game = new Hangman(guessHandler);
+        System.out.println("list atm " + guessHandler.getPrettyGuessedLetter());
+        HangmanGame game = new HangmanGame(guessHandler);
         game.startMenu();
+
+
     }
 }
