@@ -7,6 +7,7 @@ public class GuessHandler {
     private final ArrayList<String> guessList = new ArrayList<>();
     private final ArrayList<String> guessedLetters = new ArrayList<>();
     private ArrayList<String> letterList = new ArrayList<>();
+    private Hangman hangman;
 
     // The number of guesses the player gets
     private int guesses = 10;
@@ -23,16 +24,6 @@ public class GuessHandler {
     public String getWordToGuess()
     {
         return wordToGuess;
-    }
-
-    public ArrayList<String> getGuessList()
-    {
-        return guessList;
-    }
-
-    public ArrayList<String> getGuessedLetters()
-    {
-        return guessedLetters;
     }
 
     public int getGuesses()
@@ -65,6 +56,7 @@ public class GuessHandler {
     {
         if (playing)
         {
+            wrongLetter = true;
             if (!guessedLetters.contains(guess))
             {
                 guessedLetters.add(guess);
@@ -79,14 +71,22 @@ public class GuessHandler {
                 }
                 if (wrongLetter)
                 {
-                    System.out.println("Incorrect letter.");
+                    System.out.println("\nIncorrect letter.");
                     wrongGuesses++;
+                    if (guesses > 1)
+                    {
+                        hangman = new Hangman(wrongGuesses);
+                        System.out.println(hangman.drawPart());
+                    } else
+                    {
+                        System.out.println(hangman.drawEnd());
+                    }
                 }
                 guesses--;
                 return true;
             } else
             {
-                System.out.println("You've already guessed " + guess + ". Guess again!");
+                System.out.println("\nYou've already guessed " + guess + ". Guess again!");
                 return false;
             }
         }
@@ -146,6 +146,7 @@ public class GuessHandler {
         guessList.clear();
         guesses = 10;
         correctLetters = 0;
+        wrongGuesses = 0;
         guessedLetters.clear();
     }
 }

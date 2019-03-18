@@ -20,8 +20,7 @@ public class Hangman {
             "\t\t      \t    \\ \t[]\n" +
             "             \t     \\ \t[]\n" +
             "               \t      \\ []\n" +
-            "                \t      \\ []\n" +
-            "                \t       \\[]\n" +
+            "                \t   \\[]\n" +
             stakePart + stakePart + stakePart + stakePart + stakePart +
             stakePart + stakePart + stakePart + stakePart +
             ground;
@@ -104,14 +103,15 @@ public class Hangman {
             "       [__][__]         []\n" +
             stakePart + ground;
 
-    int line = 0;
+    private int line = 0;
+    private String print;
 
     public Hangman(int wrongGuess)
     {
         line = wrongGuess;
     }
 
-    private String choosePart()
+    public String drawPart()
     {
         if (line == 1)
         {
@@ -144,5 +144,10 @@ public class Hangman {
         {
             return hangman;
         }
+    }
+
+    public String drawEnd()
+    {
+        return hangman;
     }
 }

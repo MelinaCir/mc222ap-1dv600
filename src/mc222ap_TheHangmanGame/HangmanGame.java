@@ -12,7 +12,7 @@ public class HangmanGame {
 
     private Player theGamer;
     private GuessHandler guessHandler;
-    private Hangman hangman;
+    private Hangman hangman = new Hangman(0);
 
     //Game menu
     private final String quitGame = "QUIT";
@@ -83,8 +83,7 @@ public class HangmanGame {
     private void askQuestion()
     {
         playing = true;
-        System.out.println("Word to guess:");
-//        String prettyUnderscore = prettyPrintedList(guessList);
+        System.out.println("\nWord to guess:");
         String prettyGuess = guessHandler.getPrettyGuess();
         System.out.println(prettyGuess);
         System.out.println("\nNumber of guesses left: " + guessHandler.getGuesses());
@@ -124,7 +123,6 @@ public class HangmanGame {
     private void result()
     {
         int guesses = guessHandler.getGuesses();
-        int wrongGuesses = guessHandler.getWrongGuesses();
 
         if (guesses >= 0)
         {
@@ -149,7 +147,7 @@ public class HangmanGame {
      */
     private void newGame()
     {
-        System.out.println("Start new game? (Y/N)");
+        System.out.println("\nStart new game? (Y/N)");
 
         final Scanner scanner2 = new Scanner(System.in);
         final String answer = scanner2.next().toUpperCase();
@@ -170,19 +168,6 @@ public class HangmanGame {
         scanner2.close();
     }
 
-    // TODO Implement drawing of hangman
-
-    /**
-     * Draws next part of the hangman if the guess was incorrect.
-     */
-    String drawHangman()
-    {
-//        if (wrongLetter){
-//            return "__________";
-//        }
-
-        return "";
-    }
 
     /**
      * Displays result of round if player has guessed the whole word correctly.
@@ -203,6 +188,7 @@ public class HangmanGame {
      */
     private void gameOver()
     {
+        hangman.drawEnd();
         System.out.println("No more guesses! Game over");
         System.out.println("Correct word was: " + guessHandler.getPrettyLetterList());
         playing = false;
@@ -217,7 +203,7 @@ public class HangmanGame {
 
     private void endGame()
     {
-        System.out.println("Are you sure you want to quit? (Y/N)");
+        System.out.println("\nAre you sure you want to quit? (Y/N)");
 
         final Scanner scanner3 = new Scanner(System.in);
         final String answer = scanner3.next().toUpperCase();

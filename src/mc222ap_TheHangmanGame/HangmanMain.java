@@ -14,10 +14,7 @@ public class HangmanMain {
 
         Word word = new Word();
         GuessHandler guessHandler = new GuessHandler(word.getWordToGuess());
-        System.out.println("list atm " + guessHandler.getPrettyGuessedLetter());
         HangmanGame game = new HangmanGame(guessHandler);
         game.startMenu();
-
-
     }
 }
