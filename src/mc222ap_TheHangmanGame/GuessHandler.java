@@ -54,6 +54,7 @@ public class GuessHandler {
      */
     boolean evaluateGuess(String guess, boolean playing)
     {
+        System.out.println("---------------------------------------");
         if (playing)
         {
             wrongLetter = true;
@@ -89,8 +90,11 @@ public class GuessHandler {
                 System.out.println("\nYou've already guessed " + guess + ". Guess again!");
                 return false;
             }
+        } else
+        {
+            return false;
         }
-        return true;
+
     }
 
 
@@ -103,7 +107,7 @@ public class GuessHandler {
 
     ArrayList<String> createUnderscores()
     {
-        wordToGuess = new Word().getWordToGuess();
+//        wordToGuess = new Word().getWordToGuess();
         for (int i = 0; i < wordToGuess.length(); i++)
         {
             letterList.add(String.valueOf(wordToGuess.charAt(i)));
@@ -118,6 +122,11 @@ public class GuessHandler {
                 .replace(",", "")
                 .replace("[", "")
                 .replace("]", "");
+    }
+
+    public ArrayList<String> getGuessList()
+    {
+        return guessList;
     }
 
     public String getPrettyLetterList()

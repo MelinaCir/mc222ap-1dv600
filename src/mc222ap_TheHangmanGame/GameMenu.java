@@ -2,8 +2,8 @@ package mc222ap_TheHangmanGame;
 
 public class GameMenu {
 
-    private String startOption = "1";
-    private String quitOption = "2";
+    private final String startOption = "1";
+    private final String quitOption = "2";
     private final String quitGame = "QUIT";
     private final String backToMenu = "MENU";
     private final String yes = "Y";
@@ -32,4 +32,23 @@ public class GameMenu {
         return quitOption;
     }
 
+    public String getQuitGame()
+    {
+        return quitGame;
+    }
+
+    public String getBackToMenu()
+    {
+        return backToMenu;
+    }
+
+    public String getYes()
+    {
+        return yes;
+    }
+
+    public String getNo()
+    {
+        return no;
+    }
 }

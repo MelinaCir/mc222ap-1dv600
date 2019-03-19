@@ -11,7 +11,6 @@ public class DifficultyMenu {
 
     public DifficultyMenu()
     {
-
         displayMenu();
     }
 

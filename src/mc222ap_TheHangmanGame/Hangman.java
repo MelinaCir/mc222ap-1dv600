@@ -38,11 +38,11 @@ public class Hangman {
     private final String noose = topPole +
             "\t\t  |        \\\t[]\n" +
             "\t\t  |   \t    \\ \t[]\n" +
-            "       ___|__\t     \\ \t[]\n" +
-            "      /      \\ \t      \\ []\n" +
-            "     |        |\t       \\[]\n" +
-            "     |        |\t        []\n" +
-            "      \\______/\t        []\n" +
+            "          |  \t     \\ \t[]\n" +
+            "          |   \t      \\ []\n" +
+            "          |    \t       \\[]\n" +
+            "          |    \t        []\n" +
+            "         ==    \t        []\n" +
             stakePart + stakePart + stakePart + stakePart +
             stakePart + stakePart + stakePart + stakePart + stakePart +
             ground;
@@ -50,11 +50,11 @@ public class Hangman {
     private final String head = topPole +
             "\t\t  |        \\\t[]\n" +
             "\t\t  |   \t    \\ \t[]\n" +
-            "        __|___\t     \\\t[]\n" +
-            "       / _[]_ \\ \t  \\ []\n" +
-            "      | |x  x| |\t   \\[]\n" +
-            "      | |____| |\t    []\n" +
-            "       \\__[]__/\t        []\n" +
+            "          |   \t     \\\t[]\n" +
+            "         _[]_   \t  \\ []\n" +
+            "        |x  x|  \t   \\[]\n" +
+            "        |____|  \t    []\n" +
+            "         |==|           []\n" +
             stakePart + stakePart + stakePart + stakePart +
             stakePart + stakePart + stakePart +
             ground;
@@ -62,11 +62,11 @@ public class Hangman {
     private final String body = topPole +
             "\t\t  |        \\\t[]\n" +
             "\t\t  |   \t    \\ \t[]\n" +
-            "        __|___\t     \\\t[]\n" +
-            "       / _[]_ \\ \t  \\ []\n" +
-            "      | |x  x| |\t   \\[]\n" +
-            "      | |____| |\t    []\n" +
-            "       \\__[]__/\t        []\n" +
+            "          |   \t     \\\t[]\n" +
+            "         _[]_   \t  \\ []\n" +
+            "        |x  x|  \t   \\[]\n" +
+            "        |____|  \t    []\n" +
+            "        _|==|_          []\n" +
             "        /    \\          []\n" +
             "        |    |          []\n" +
             "        |____|\t        []\n" +
@@ -76,11 +76,11 @@ public class Hangman {
     private final String arms = topPole +
             "\t\t  |        \\\t[]\n" +
             "\t\t  |   \t    \\ \t[]\n" +
-            "        __|___\t     \\\t[]\n" +
-            "       / _[]_ \\ \t  \\ []\n" +
-            "      | |x  x| |\t   \\[]\n" +
-            "      | |____| |\t    []\n" +
-            "       \\__[]__/\t        []\n" +
+            "          |   \t     \\\t[]\n" +
+            "         _[]_   \t  \\ []\n" +
+            "        |x  x|  \t   \\[]\n" +
+            "        |____|  \t    []\n" +
+            "        _|==|_          []\n" +
             "       //    \\\\         []\n" +
             "      //|    |\\\\        []\n" +
             "        |____|\t        []\n" +
@@ -90,11 +90,11 @@ public class Hangman {
     private final String hangman = topPole +
             "\t\t  |        \\\t[]\n" +
             "\t\t  |   \t    \\ \t[]\n" +
-            "        __|___\t     \\\t[]\n" +
-            "       / _[]_ \\ \t  \\ []\n" +
-            "      | |x  x| |\t   \\[]\n" +
-            "      | |____| |\t    []\n" +
-            "       \\__[]__/\t        []\n" +
+            "          |   \t     \\\t[]\n" +
+            "         _[]_   \t  \\ []\n" +
+            "        |x  x|  \t   \\[]\n" +
+            "        |____|  \t    []\n" +
+            "        _|==|_          []\n" +
             "       //    \\\\         []\n" +
             "      //|    |\\\\        []\n" +
             "        |____|\t        []\n" +

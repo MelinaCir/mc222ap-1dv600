@@ -13,7 +13,6 @@ public class Word {
 
     public Word()
     {
-
         wordToGuess = pickWord();
     }
 

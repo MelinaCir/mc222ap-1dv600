@@ -90,6 +90,7 @@ public class HangmanGame {
         System.out.print("Guess letter: ");
 
         boolean success = guessHandler.evaluateGuess(scanUserInput(), playing);
+
         while (!success)
         {
             success = guessHandler.evaluateGuess(scanUserInput(), playing);
@@ -100,22 +101,30 @@ public class HangmanGame {
 
     }
 
-
     private String scanUserInput()
     {
         scanner = new Scanner(System.in);
-        final String input = scanner.next().toUpperCase();
+        String input = scanner.next().toUpperCase();
 
         if (input.equals(quitGame))
         {
+            playing = false;
             endGame();
         } else if (input.equals(backToMenu))
         {
             guessHandler.reset();
             startMenu();
+        } else
+        {
+            if (input.length() > 1)
+            {
+                System.out.println("Too long, please type only one letter.");
+                input = scanUserInput();
+            }
         }
         return input;
     }
+
 
     /**
      *
@@ -222,17 +231,13 @@ public class HangmanGame {
             playing = false;
             resetGame();
             System.out.println("Thank you for playing Hangman! Goodbye.");
+            return;
         } else
         {
             System.out.println("Invalid option, please pick Y or N");
             endGame();
         }
         scanner3.close();
-    }
-
-    public Scanner getScanner()
-    {
-        return scanner;
     }
 
 }
