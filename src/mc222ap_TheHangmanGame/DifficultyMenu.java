@@ -1,5 +1,6 @@
 package mc222ap_TheHangmanGame;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class DifficultyMenu {
@@ -7,7 +8,7 @@ public class DifficultyMenu {
     private String easyOption = "1";
     private String mediumOption = "2";
     private String hardOption = "3";
-    private Word theWord;
+    private Word theWord = new Word();
 
     public DifficultyMenu()
     {
@@ -20,26 +21,6 @@ public class DifficultyMenu {
         getWord();
     }
 
-    public Word getTheWord()
-    {
-        return theWord;
-    }
-
-    public String getEasyOption()
-    {
-        return easyOption;
-    }
-
-    public String getMediumOption()
-    {
-        return mediumOption;
-    }
-
-    public String getHardOption()
-    {
-        return hardOption;
-    }
-
     private Word getWord()
     {
 
@@ -49,16 +30,21 @@ public class DifficultyMenu {
     String readOption()
     {
         Scanner optionScanner = new Scanner(System.in);
+        String answer = optionScanner.next();
 
-        if (optionScanner.next().equals(easyOption))
+        if (answer.equals(easyOption))
         {
-            return "easy";
-        } else if (optionScanner.next().equals(mediumOption))
+            File easyFile = new File("documentation/easyWordFile.txt");
+
+            return theWord.pickWord(easyFile);
+        } else if (answer.equals(mediumOption))
         {
-            return "medium";
-        } else if (optionScanner.next().equals(hardOption))
+            File mediumFile = new File("documentation/medWordFile.txt");
+            return theWord.pickWord(mediumFile);
+        } else if (answer.equals(hardOption))
         {
-            return "hard";
+            File hardFile = new File("documentation/hardWordFile.txt");
+            return theWord.pickWord(hardFile);
         }
         optionScanner.close();
         return "";

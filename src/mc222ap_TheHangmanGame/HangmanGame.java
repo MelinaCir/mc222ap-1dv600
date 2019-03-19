@@ -24,9 +24,8 @@ public class HangmanGame {
     private Scanner scanner;
 
 
-    public HangmanGame(final GuessHandler guessHandler)
+    public HangmanGame()
     {
-        this.guessHandler = guessHandler;
     }
 
     void startMenu()
@@ -39,8 +38,26 @@ public class HangmanGame {
 
         if (choice.equals(menu.getStartOption()))
         {
-            guessHandler.createUnderscores();
-            askQuestion();
+            System.out.println("(Type 'Quit' to quit, 'Menu' to return to menu)");
+
+            System.out.print("\nType in a user name: ");
+
+            final Scanner scanner1 = new Scanner(System.in);
+            final String username = scanner1.next();
+
+            if (username.toUpperCase().equals(quitGame))
+            {
+                endGame();
+            } else if (username.toUpperCase().equals(backToMenu))
+            {
+                startMenu();
+            } else
+            {
+                theGamer = new Player(username);
+                System.out.println("\nHello " + theGamer.getUsername());
+            }
+            setUpGame();
+            scanner1.close();
         } else if (choice.equals(menu.getQuitOption()))
         {
             endGame();
@@ -55,29 +72,11 @@ public class HangmanGame {
     // TODO Complete options for username and difficulty-level
     private void setUpGame()
     {
-        System.out.println("(Type 'Quit' to quit, 'Menu' to return to menu)");
-
-        System.out.print("\nType in a user name: ");
-
-        final Scanner scanner1 = new Scanner(System.in);
-        final String username = scanner1.next();
-
-        if (username.toUpperCase().equals(quitGame))
-        {
-            endGame();
-        } else if (username.toUpperCase().equals(backToMenu))
-        {
-            startMenu();
-        } else
-        {
-            theGamer = new Player(username);
-            System.out.println("Hello " + theGamer.getUsername());
-        }
-
-        // TODO DifficultyMenu diffMenu = new DifficultyMenu();
+        DifficultyMenu diffMenu = new DifficultyMenu();
+        guessHandler = new GuessHandler(diffMenu.readOption());
 
         guessHandler.createUnderscores();
-        scanner1.close();
+        askQuestion();
     }
 
     private void askQuestion()
@@ -163,8 +162,7 @@ public class HangmanGame {
 
         if (answer.equals(yes))
         {
-            guessHandler.createUnderscores();
-            askQuestion();
+            setUpGame();
         } else if (answer.equals(no))
         {
             System.out.println("Thanks for playing Hangman! Goodbye.");

@@ -10,10 +10,10 @@ public class Word {
     private ArrayList<String> wordList = new ArrayList<>();
     private Scanner wordScanner;
     private String wordToGuess;
+    private File file;
 
     public Word()
     {
-        wordToGuess = pickWord();
     }
 
     public Word(String difficulty)
@@ -31,11 +31,11 @@ public class Word {
         this.wordToGuess = wordToGuess;
     }
 
-    private String pickWord()
+    public String pickWord(File fileToScan)
     {
         try
         {
-            wordScanner = new Scanner(new File("documentation/wordfile.txt"));
+            wordScanner = new Scanner(fileToScan);
         } catch (
                 FileNotFoundException e)
         {
