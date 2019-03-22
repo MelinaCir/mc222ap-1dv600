@@ -34,15 +34,16 @@ public class DifficultyMenu {
 
         if (answer.equals(easyOption))
         {
-            File easyFile = new File("src/files/easyWordFile.txt");
+            File easyFile = new File(("src/files/easyWordFile.txt"));
+            System.out.println(easyFile.length());
             return theWord.pickWord(easyFile);
         } else if (answer.equals(mediumOption))
         {
-            File mediumFile = new File("src/files/medWordFile.txt");
+            File mediumFile = new File(("src/files/medWordFile.txt"));
             return theWord.pickWord(mediumFile);
         } else if (answer.equals(hardOption))
         {
-            File hardFile = new File("src/files/hardWordFile.txt");
+            File hardFile = new File(("src/files/hardWordFile.txt"));
             return theWord.pickWord(hardFile);
         } else
         {
