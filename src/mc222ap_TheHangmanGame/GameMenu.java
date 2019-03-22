@@ -1,5 +1,11 @@
 package mc222ap_TheHangmanGame;
 
+/**
+ * Class GameMenu creates a representation of a game menu with different game options.
+ *
+ * @author Melina Cirverius
+ * @version 1.1
+ */
 public class GameMenu {
 
     private final String startOption = "1";

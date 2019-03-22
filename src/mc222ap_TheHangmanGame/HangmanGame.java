@@ -6,22 +6,18 @@ import java.util.Scanner;
  * Class HangmanGame creates a representation of a hangman game.
  *
  * @author Melina Cirverius
- * @version 1.0
+ * @version 1.1
  */
 public class HangmanGame {
 
     private Player theGamer;
     private GuessHandler guessHandler;
     private Hangman hangman = new Hangman(0);
-
-    //Game menu
-    private final String quitGame = "QUIT";
-    private final String backToMenu = "MENU";
-    private final String yes = "Y";
-    private final String no = "N";
+    private GameMenu menu;
 
     boolean playing = false;
     private Scanner scanner;
+    private Scanner scanner1;
 
 
     public HangmanGame()
@@ -31,31 +27,14 @@ public class HangmanGame {
     void startMenu()
     {
         System.out.println("\nWelcome to Hangman v1.0");
-        final GameMenu menu = new GameMenu();
+        menu = new GameMenu();
 
         final Scanner scanner = new Scanner(System.in);
         final String choice = scanner.next();
 
         if (choice.equals(menu.getStartOption()))
         {
-            System.out.println("(Type 'Quit' to quit, 'Menu' to return to menu)");
-
-            System.out.print("\nType in a user name: ");
-
-            final Scanner scanner1 = new Scanner(System.in);
-            final String username = scanner1.next();
-
-            if (username.toUpperCase().equals(quitGame))
-            {
-                endGame();
-            } else if (username.toUpperCase().equals(backToMenu))
-            {
-                startMenu();
-            } else
-            {
-                theGamer = new Player(username);
-                System.out.println("\nHello " + theGamer.getUsername());
-            }
+            userName();
             setUpGame();
             scanner1.close();
         } else if (choice.equals(menu.getQuitOption()))
@@ -69,7 +48,28 @@ public class HangmanGame {
         scanner.close();
     }
 
-    // TODO Complete options for username and difficulty-level
+    private void userName()
+    {
+        System.out.println("(Type 'Quit' to quit, 'Menu' to return to menu)");
+
+        System.out.print("\nType in a user name: ");
+
+        scanner1 = new Scanner(System.in);
+        final String username = scanner1.next();
+
+        if (username.toUpperCase().equals(menu.getQuitGame()))
+        {
+            endGame();
+        } else if (username.toUpperCase().equals(menu.getBackToMenu()))
+        {
+            startMenu();
+        } else
+        {
+            theGamer = new Player(username);
+            System.out.println("\nHello " + theGamer.getUsername());
+        }
+    }
+
     private void setUpGame()
     {
         DifficultyMenu diffMenu = new DifficultyMenu();
@@ -105,11 +105,11 @@ public class HangmanGame {
         scanner = new Scanner(System.in);
         String input = scanner.next().toUpperCase();
 
-        if (input.equals(quitGame))
+        if (input.equals(menu.getQuitGame()))
         {
             playing = false;
             endGame();
-        } else if (input.equals(backToMenu))
+        } else if (input.equals(menu.getBackToMenu()))
         {
             guessHandler.reset();
             startMenu();
@@ -128,7 +128,7 @@ public class HangmanGame {
     /**
      *
      */
-    private void result()
+    void result()
     {
         int guesses = guessHandler.getGuesses();
 
@@ -160,10 +160,10 @@ public class HangmanGame {
         final Scanner scanner2 = new Scanner(System.in);
         final String answer = scanner2.next().toUpperCase();
 
-        if (answer.equals(yes))
+        if (answer.equals(menu.getYes()))
         {
             setUpGame();
-        } else if (answer.equals(no))
+        } else if (answer.equals(menu.getNo()))
         {
             System.out.println("Thanks for playing Hangman! Goodbye.");
             playing = false;
@@ -195,7 +195,7 @@ public class HangmanGame {
      */
     private void gameOver()
     {
-        hangman.drawEnd();
+        System.out.println(hangman.drawEnd());
         System.out.println("No more guesses! Game over");
         System.out.println("Correct word was: " + guessHandler.getPrettyLetterList());
         playing = false;
@@ -215,7 +215,7 @@ public class HangmanGame {
         final Scanner scanner3 = new Scanner(System.in);
         final String answer = scanner3.next().toUpperCase();
 
-        if (answer.equals(no))
+        if (answer.equals(menu.getNo()))
         {
             if (playing)
             {
@@ -224,7 +224,7 @@ public class HangmanGame {
             {
                 startMenu();
             }
-        } else if (answer.equals(yes))
+        } else if (answer.equals(menu.getYes()))
         {
             playing = false;
             resetGame();

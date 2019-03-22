@@ -1,5 +1,11 @@
 package mc222ap_TheHangmanGame;
 
+/**
+ * Class Hangman creates a representation of a hangman being drawn in the hangman game.
+ *
+ * @author Melina Cirverius
+ * @version 1.1
+ */
 public class Hangman {
 
     private final String stakePart = "\t\t\t            []\n";
@@ -103,8 +109,7 @@ public class Hangman {
             "       [__][__]         []\n" +
             stakePart + ground;
 
-    private int line = 0;
-    private String print;
+    private int line;
 
     public Hangman(int wrongGuess)
     {

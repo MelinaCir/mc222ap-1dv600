@@ -2,6 +2,12 @@ package mc222ap_TheHangmanGame;
 
 import java.util.ArrayList;
 
+/**
+ * Class GuessHandler handles everything guessrelated in the hangman game.
+ *
+ * @author Melina Cirverius
+ * @version 1.1
+ */
 public class GuessHandler {
 
     private final ArrayList<String> guessList = new ArrayList<>();
@@ -9,7 +15,6 @@ public class GuessHandler {
     private ArrayList<String> letterList = new ArrayList<>();
     private Hangman hangman;
 
-    // The number of guesses the player gets
     private int guesses = 10;
     private int correctLetters = 0;
     private int wrongGuesses = 0;
@@ -21,42 +26,15 @@ public class GuessHandler {
         this.wordToGuess = wordToGuess;
     }
 
-    public String getWordToGuess()
-    {
-        return wordToGuess;
-    }
-
-    public int getGuesses()
-    {
-        return guesses;
-    }
-
-    public int getCorrectLetters()
-    {
-        return correctLetters;
-    }
-
-    public boolean isWrongLetter()
-    {
-        return wrongLetter;
-    }
-
-    public ArrayList<String> getLetterList()
-    {
-        return letterList;
-    }
-
-    // TODO implement check if the player types more than one letter.
-
     /**
      * Checks if the letter guessed by the player is present in the current word.
      * Also checks if the letter has already been guessed.
      */
     boolean evaluateGuess(String guess, boolean playing)
     {
-        System.out.println("---------------------------------------");
         if (playing)
         {
+            System.out.println("---------------------------------------");
             wrongLetter = true;
             if (!guessedLetters.contains(guess))
             {
@@ -78,9 +56,6 @@ public class GuessHandler {
                     {
                         hangman = new Hangman(wrongGuesses);
                         System.out.println(hangman.drawPart());
-                    } else
-                    {
-                        System.out.println(hangman.drawEnd());
                     }
                 }
                 guesses--;
@@ -94,9 +69,7 @@ public class GuessHandler {
         {
             return false;
         }
-
     }
-
 
     /**
      * Takes each letter in the word to guess and adds it to a list.
@@ -107,7 +80,6 @@ public class GuessHandler {
 
     ArrayList<String> createUnderscores()
     {
-//        wordToGuess = new Word().getWordToGuess();
         for (int i = 0; i < wordToGuess.length(); i++)
         {
             letterList.add(String.valueOf(wordToGuess.charAt(i)));
@@ -122,6 +94,36 @@ public class GuessHandler {
                 .replace(",", "")
                 .replace("[", "")
                 .replace("]", "");
+    }
+
+    public void reset()
+    {
+        letterList.clear();
+        guessList.clear();
+        guesses = 10;
+        correctLetters = 0;
+        wrongGuesses = 0;
+        guessedLetters.clear();
+    }
+
+    public int getGuesses()
+    {
+        return guesses;
+    }
+
+    public int getCorrectLetters()
+    {
+        return correctLetters;
+    }
+
+    public int getWrongGuesses()
+    {
+        return wrongGuesses;
+    }
+
+    public ArrayList<String> getLetterList()
+    {
+        return letterList;
     }
 
     public ArrayList<String> getGuessList()
@@ -144,18 +146,5 @@ public class GuessHandler {
         return prettyPrintedList(guessedLetters);
     }
 
-    public int getWrongGuesses()
-    {
-        return wrongGuesses;
-    }
 
-    public void reset()
-    {
-        letterList.clear();
-        guessList.clear();
-        guesses = 10;
-        correctLetters = 0;
-        wrongGuesses = 0;
-        guessedLetters.clear();
-    }
 }

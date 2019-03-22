@@ -5,30 +5,19 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Class Word creates an instance representing a word.
+ *
+ * @author Melina Cirverius
+ * @version 1.0
+ */
 public class Word {
 
     private ArrayList<String> wordList = new ArrayList<>();
     private Scanner wordScanner;
-    private String wordToGuess;
-    private File file;
 
     public Word()
     {
-    }
-
-    public Word(String difficulty)
-    {
-
-    }
-
-    public String getWordToGuess()
-    {
-        return wordToGuess;
-    }
-
-    public void setWordToGuess(String wordToGuess)
-    {
-        this.wordToGuess = wordToGuess;
     }
 
     public String pickWord(File fileToScan)
